@@ -22,7 +22,6 @@
 		"express-validator": "^6.11.1",
 		"formidable": "^2.0.1",
 		"fs": "^0.0.1-security",
-		"hardhat": "^2.12.6",
 		"joi": "^17.7.0",
 		"joi-password-complexity": "^5.1.0",
 		"jsonwebtoken": "^8.5.1",
