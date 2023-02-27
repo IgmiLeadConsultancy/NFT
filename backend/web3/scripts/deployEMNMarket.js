@@ -17,3 +17,6 @@ main().catch((error) => {
   console.error(error);
   process.exitCode = 1;
 });
+
+
+// tokenUri = 'QmSuM6oku4d4EmgCQQGRAc3NaCaUXno94bc6WgNDpWMV9e'

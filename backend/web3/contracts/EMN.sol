@@ -2,7 +2,6 @@
 pragma solidity ^0.8.10;
 
 import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URIStorageUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
@@ -11,14 +10,13 @@ import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 contract EMN is
     Initializable,
     OwnableUpgradeable,
-    CountersUpgradeable,
-    ERC721Upgradeable,
-    ERC721URIStorage,
+    ERC721URIStorageUpgradeable,
     PausableUpgradeable
 {
-    using Counters for Counters.Counter;
-    Counters.Counter public _tokenIds;
+    using CountersUpgradeable for CountersUpgradeable.Counter;
+    CountersUpgradeable.Counter public _tokenIds;
     address contractAddress;
+    uint256 cost;
 
     function initialize(
         address _marketContract,

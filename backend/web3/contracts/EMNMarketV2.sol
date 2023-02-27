@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Unlicensed
+// SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.10;
 
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
@@ -8,7 +8,7 @@ import "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 
-contract EMNMarket is
+contract EMNMarketV2 is
     Initializable,
     PausableUpgradeable,
     OwnableUpgradeable,
@@ -56,6 +56,7 @@ contract EMNMarket is
         holder = payable(msg.sender);
         listingFee = _listingFee;
         mintingFee = _mintingFee;
+        __Ownable_init();
     }
 
     function getListingFee() public view returns (uint256) {
