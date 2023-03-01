@@ -25,6 +25,7 @@ contract EMN is
         __ERC721_init("EMNMarket", "EMN");
         contractAddress = _marketContract;
         cost = _cost;
+        __Ownable_init();
     }
 
     function setCost(uint256 _cost) public onlyOwner {

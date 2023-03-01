@@ -3,7 +3,7 @@ const { ethers, upgrades } = require("hardhat");
 async function main() {
 
     const EMN = await ethers.getContractFactory("EMN");
-    const emn = await upgrades.deployProxy(EMN, ['0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9', 7500000000000000], {
+    const emn = await upgrades.deployProxy(EMN, ['0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0', 7500000000000000], {
         initializer: 'initialize'
     });
     await emn.deployed();

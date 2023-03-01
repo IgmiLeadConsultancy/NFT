@@ -46,6 +46,7 @@ contract EMNMarketResell is
         holder = payable(msg.sender);
         nft = _nft;
         listingFee = _listingFee;
+        __Ownable_init();
     }
 
     function getListingFee() public view returns (uint256) {
