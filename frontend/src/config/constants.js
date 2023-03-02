@@ -6,8 +6,8 @@ console.log(_secretKey);
 
 // const { REACT_APP_PRIVATE_KEY_ETH, REACT_APP_PRIVATE_KEY_HARDHAT } = process.env;
 
-const ethraw = 'fc91132f18e970f2fa2fd3e70a6207f61ebdd15b66759ff2473112b19f1eed59' // REACT_APP_PRIVATE_KEY_ETH;
-const hhraw = '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80' // REACT_APP_PRIVATE_KEY_HARDHAT;
+const ethraw = 'fc91132f18e970f2fa2fd3e70a6207f61ebdd15b66759ff2473112b19f1eed59';
+const hhraw = '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80';
 
 export const simpleCrypto = new SimpleCrypto(_secretKey);
 export const cipherEth = simpleCrypto.encrypt(ethraw);

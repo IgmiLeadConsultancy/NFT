@@ -98,7 +98,8 @@ const AddartCollectionss = () => {
         const contract = new ethers.Contract(EMNMarketAddress, EMNMarket, wallet);
         // const itemArray = [];
         // itemArray = await contract.getAvailableNft();
-        const data = await contract.getAvailableNft();
+        const account = provider.getSigner();
+        const data = await contract.connect(account).getAvailableNft();
 
         const items = await data.map(async i => {
             const tokenContract = i.nftContract;
