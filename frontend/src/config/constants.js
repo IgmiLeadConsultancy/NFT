@@ -14,13 +14,19 @@ export const cipherEth = simpleCrypto.encrypt(ethraw);
 export const cipherHH = simpleCrypto.encrypt(hhraw);
 
 
-export const EMNAddress = '0x08bDd29C55eFaB3CC494c4d9818CB24F8a02fceb';
-export const EMNMarketAddress = '0x871108aB178acc459750231655DCbE8e563340FA';
-export const EMNMarketResaleAddress = '';
+export const EMNAddressGoerli = '0x45efE1252cec81f5a141E42E62c8aBC975b17773';
+export const EMNMarketAddressGoerli = '0xB482bBC11524B13A63EAB68F5A5D5936Aa085EDd';
+export const EMNMarketResaleAddressGoerli = '';
+
+
+export const EMNAddressMumbai = '0x45efE1252cec81f5a141E42E62c8aBC975b17773';
+export const EMNMarketAddressMumbai = '0xA422027254Fb72c8e1108673E2F1e26e5Ad7aa52';
 
 
 var hhrpc = "http://localhost:8545";
 
 var goerliRpc = "https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161";
+
+var mumbaiRpc = "https://rpc.ankr.com/polygon_mumbai"
 
 export var mainnet = goerliRpc;

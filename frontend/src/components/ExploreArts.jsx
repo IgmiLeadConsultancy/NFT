@@ -8,9 +8,9 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { Redirect } from "react-router-dom";
 
-import EMNMarket from '../config/EMNMarket.json';
+import EMNMarket from '../config/EMNMarketV1.json';
 import EMN from '../config/EMN.json';
-import { EMNMarketAddress, cipherHH, mainnet, simpleCrypto, EMNAddress, cipherEth } from "../config/constants";
+import { EMNMarketAddressGoerli, cipherHH, mainnet, simpleCrypto, EMNAddressGoerli, cipherEth } from "../config/constants";
 
 
 const AddartCollectionss = () => {
@@ -77,25 +77,24 @@ const AddartCollectionss = () => {
     //     hhsetNfts(items)
     // }
 
-    // async function buyNewNft(nft) {
-    //     const provider = new ethers.providers.JsonRpcProvider();
-    //     const signer = provider.getSigner();
-    //     const contract = new ethers.Contract(cipherHH, EMNMarketAddress, signer);
+    async function buyNewNft(nft) {
+        const provider = new ethers.providers.JsonRpcProvider();
+        const signer = provider.getSigner();
+        const contract = new ethers.Contract(cipherHH, EMNMarketAddressGoerli, signer);
 
-    //     const price = ethers.utils.parseUnits(nft.price.toString(), 'ether')
-    //     const transaction = await contract.EMNMarket(nft.nftContract, nft.tokenId, {
-    //         value: price
-    //     })
-    //     await transaction.wait()
-    //     loadNewSaleNFTs()
-    // }
+        const price = ethers.utils.parseUnits(nft.price.toString(), 'ether')
+        const transaction = await contract.EMNMarket(nft.nftContract, nft.tokenId, {
+            value: price
+        })
+        await transaction.wait();
+    }
 
     async function getAllNFTs() {
         const key = simpleCrypto.decrypt(cipherEth);
         const provider = new ethers.providers.JsonRpcProvider(mainnet);
         const wallet = new ethers.Wallet(key, provider);
         const signer = wallet.provider.getSigner(wallet.address);
-        const contract = new ethers.Contract(EMNMarketAddress, EMNMarket, signer);
+        const contract = new ethers.Contract(EMNMarketAddressGoerli, EMNMarket, signer);
         // const itemArray = [];
         // itemArray = await contract.getAvailableNft();
         const data = await contract.getAvailableNft();
@@ -185,7 +184,7 @@ const AddartCollectionss = () => {
                                             <p className="text-warning">Price: &nbsp; {nft.price}</p>
                                             <p className="text-warning">Description: &nbsp; {nft.description}</p>
                                             <br />
-                                            <Button className="btn" style={{ borderRadius: "0px" }}>Buy Now</Button>
+                                            <Button className="btn" style={{ borderRadius: "0px" }} onClick={buyNewNft}>Buy Now</Button>
                                         </div>
                                     </div>
                                 )))}

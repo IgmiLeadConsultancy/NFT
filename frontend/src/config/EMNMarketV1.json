@@ -18,6 +18,43 @@
             {
                 "indexed": true,
                 "internalType": "address",
+                "name": "nftContract",
+                "type": "address"
+            },
+            {
+                "indexed": true,
+                "internalType": "uint256",
+                "name": "tokenId",
+                "type": "uint256"
+            },
+            {
+                "indexed": true,
+                "internalType": "uint256",
+                "name": "price",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "seller",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "holder",
+                "type": "address"
+            }
+        ],
+        "name": "MarketSale",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": true,
+                "internalType": "address",
                 "name": "previousOwner",
                 "type": "address"
             },
@@ -127,6 +164,19 @@
     {
         "inputs": [
             {
+                "internalType": "uint256",
+                "name": "tokenId",
+                "type": "uint256"
+            }
+        ],
+        "name": "cancelSale",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
                 "internalType": "uint128",
                 "name": "_listingFee",
                 "type": "uint128"
@@ -215,7 +265,7 @@
                         "type": "bool"
                     }
                 ],
-                "internalType": "struct EMNMarketV2.VaultItem[]",
+                "internalType": "struct EMNMarketV1.VaultItem[]",
                 "name": "",
                 "type": "tuple[]"
             }
@@ -278,7 +328,7 @@
                         "type": "bool"
                     }
                 ],
-                "internalType": "struct EMNMarketV2.VaultItem[]",
+                "internalType": "struct EMNMarketV1.VaultItem[]",
                 "name": "",
                 "type": "tuple[]"
             }
@@ -328,7 +378,7 @@
                         "type": "bool"
                     }
                 ],
-                "internalType": "struct EMNMarketV2.VaultItem[]",
+                "internalType": "struct EMNMarketV1.VaultItem[]",
                 "name": "",
                 "type": "tuple[]"
             }
@@ -369,6 +419,13 @@
     },
     {
         "inputs": [],
+        "name": "pause",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
         "name": "paused",
         "outputs": [
             {
@@ -396,6 +453,13 @@
             }
         ],
         "name": "transferOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "unpause",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"

@@ -56,6 +56,14 @@ contract EMN is
         return newItemId;
     }
 
+    function pause() public onlyOwner {
+        _pause();
+    }
+
+    function unpause() public onlyOwner {
+        _unpause();
+    }
+
     function withdraw() public payable onlyOwner {
         require(payable(msg.sender).send(address(this).balance));
     }

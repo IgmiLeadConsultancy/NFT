@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Unlicensed
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.10;
 
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
@@ -8,7 +8,7 @@ import "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 
-contract EMNMarket is
+contract EMNMarketV1 is
     Initializable,
     PausableUpgradeable,
     OwnableUpgradeable,
@@ -45,6 +45,14 @@ contract EMNMarket is
         bool sold
     );
 
+    event MarketSale(
+        address indexed nftContract,
+        uint256 indexed tokenId,
+        uint256 indexed price,
+        address seller,
+        address holder
+    );
+
     function initialize(
         uint128 _listingFee,
         uint128 _mintingFee
@@ -56,18 +64,23 @@ contract EMNMarket is
         holder = payable(msg.sender);
         listingFee = _listingFee;
         mintingFee = _mintingFee;
+        __Ownable_init();
     }
 
     function getListingFee() public view returns (uint256) {
         return listingFee;
     }
 
-    function changeListingFee(uint128 _listingFee) public onlyOwner {
+    function changeListingFee(
+        uint128 _listingFee
+    ) public onlyOwner whenNotPaused {
         require(_listingFee != 0, "Listing Fee cannot be zero");
         listingFee = _listingFee;
     }
 
-    function changeMintingFee(uint128 _mintingFee) public onlyOwner {
+    function changeMintingFee(
+        uint128 _mintingFee
+    ) public onlyOwner whenNotPaused {
         require(_mintingFee != 0, "Listing Fee cannot be zero");
         mintingFee = _mintingFee;
     }
@@ -110,7 +123,7 @@ contract EMNMarket is
     function EMNMarketSale(
         address nftContract,
         uint256 itemId
-    ) public payable nonReentrant {
+    ) public payable nonReentrant whenNotPaused {
         uint price = idToVaultItem[itemId].price;
         uint tokenId = idToVaultItem[itemId].tokenId;
         require(
@@ -128,6 +141,14 @@ contract EMNMarket is
         idToVaultItem[itemId].sold = true;
         _itemsSold.increment();
         payable(holder).transfer(listingFee);
+
+        emit MarketSale(
+            nftContract,
+            tokenId,
+            price,
+            idToVaultItem[itemId].seller,
+            idToVaultItem[itemId].holder
+        );
     }
 
     function getAvailableNft() public view returns (VaultItem[] memory) {
@@ -191,6 +212,25 @@ contract EMNMarket is
             }
         }
         return items;
+    }
+
+    function cancelSale(uint256 tokenId) public nonReentrant whenNotPaused {
+        require(idToVaultItem[tokenId].seller == msg.sender, "NFT not yours");
+
+        IERC721Upgradeable(idToVaultItem[tokenId].nftContract).transferFrom(
+            address(this),
+            msg.sender,
+            tokenId
+        );
+        delete idToVaultItem[tokenId];
+    }
+
+    function pause() public onlyOwner whenNotPaused {
+        _pause();
+    }
+
+    function unpause() public onlyOwner whenPaused {
+        _unpause();
     }
 
     function withdraw() public payable onlyOwner {
