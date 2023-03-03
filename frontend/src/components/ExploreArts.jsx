@@ -8,7 +8,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { Redirect } from "react-router-dom";
 
-import EMNMarket from '../config/EMNMarketV3.json';
+import EMNMarket from '../config/EMNMarket.json';
 import EMN from '../config/EMN.json';
 import { EMNMarketAddress, cipherHH, mainnet, simpleCrypto, EMNAddress, cipherEth } from "../config/constants";
 
@@ -91,21 +91,20 @@ const AddartCollectionss = () => {
     // }
 
     async function getAllNFTs() {
-        // const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const key = simpleCrypto.decrypt(cipherEth)
-        const provider = new ethers.providers.JsonRpcProvider(mainnet)
+        const key = simpleCrypto.decrypt(cipherEth);
+        const provider = new ethers.providers.JsonRpcProvider(mainnet);
         const wallet = new ethers.Wallet(key, provider);
-        const contract = new ethers.Contract(EMNMarketAddress, EMNMarket, wallet);
+        const signer = wallet.provider.getSigner(wallet.address);
+        const contract = new ethers.Contract(EMNMarketAddress, EMNMarket, signer);
         // const itemArray = [];
         // itemArray = await contract.getAvailableNft();
-        const account = provider.getSigner();
-        const data = await contract.connect(account).getAvailableNft();
+        const data = await contract.getAvailableNft();
 
         const items = await data.map(async i => {
-            const tokenContract = i.nftContract;
-            const tokenUri = await tokenContract.tokenURI(i.tokenId)
-            const meta = await axios.get(tokenUri)
-            let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
+            // const tokenContract = await i.nftContract;
+            const tokenUri = await contract.tokenURI(i.tokenId);
+            const meta = await axios.get(tokenUri);
+            let price = ethers.utils.formatUnits(i.price.toString(), 'ether');
             let item = {
                 price,
                 tokenId: i.tokenId.toNumber(),
@@ -114,9 +113,9 @@ const AddartCollectionss = () => {
                 image: meta.data.image,
                 name: meta.data.name,
                 description: meta.data.description,
-            }
+            };
             return item
-        })
+        });
 
         setNfts(items);
         setLoadingState('loaded');
@@ -142,6 +141,11 @@ const AddartCollectionss = () => {
     //  }
 
 
+    const refreshButton = () => {
+        window.location.reload();
+    }
+
+
 
     return (
         <div className="wrapper">
@@ -156,6 +160,11 @@ const AddartCollectionss = () => {
                         <div className="row mb-2">
                             <div className="col-sm-12" align="center">
                                 <h1 className="m-0 text-light">Explore Arts Collections</h1>
+                            </div>
+                            <div>
+                                <Button className="m-0 bg-blue text-light" onClick={refreshButton}>
+                                    Refresh to see new new collection
+                                </Button>
                             </div>
                         </div>
                     </div>

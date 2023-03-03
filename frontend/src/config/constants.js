@@ -1,5 +1,5 @@
 import SimpleCrypto from 'simple-crypto-js';
-require("dotenv").config();
+// require("dotenv").config();
 
 const _secretKey = SimpleCrypto.generateRandom();
 console.log(_secretKey);
