@@ -1,22 +1,32 @@
-const { ethers } = require("hardhat");
+const { ethers, upgrades } = require("hardhat");
 
 async function main() {
 
-  const NFT = await ethers.getContractFactory('NFT');
-
-  const nft = await NFT.deploy();
-
-  await nft.deployed();
-
-  console.log(`NFT contract deployed to ${nft.address}`);
+    const EMN = await ethers.getContractFactory("EMN");
+    const emn = await upgrades.deployProxy(EMN, ['0xA422027254Fb72c8e1108673E2F1e26e5Ad7aa52', 7500000000000000], {
+        initializer: 'initialize'
+    });
+    await emn.deployed();
+    console.log(
+        `EMN deployed to ${emn.address}`
+    );
 
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
+
 main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
+    console.error(error);
+    process.exitCode = 1;
 });
 
-// Contract address - 0x07D36Fde6F0d9656E34b611F032cFf53107A8563
+
+// Goerli
+// contract(containing state variables) address -> 0x45efE1252cec81f5a141E42E62c8aBC975b17773
+// contract(containing logical implementation) -> 0x480b1d59BD8c96aCC52bA4919c3e5Dc93905712F
+// proxy admin - 0xf4D000055B4CEe34f248172f381236559De3B98d
+
+
+// Polygon
+// contract(containing state variables) address -> 0x63E84Ab8Ad7De415AA275AF567f958F6187b84ae
+// contract(containing logical implementation) -> 0xD05B2A8CfE094eE0cC32EBB32d5f6C898B5C52Bd
+// proxy admin -> 0xf22428AE6EC0a4136D691A751D88Ecda7233CA47

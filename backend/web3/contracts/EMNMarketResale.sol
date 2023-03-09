@@ -1,14 +1,23 @@
 // SPDX-License-Identifier: MIT LICENSE
-pragma solidity 0.8.4;
+pragma solidity ^0.8.10;
 
-import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC721/IERC721ReceiverUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721EnumerableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 
-contract EMNMarketResell is IERC721Receiver, ReentrancyGuard, Ownable {
+contract EMNMarketResell is
+    Initializable,
+    IERC721ReceiverUpgradeable,
+    ReentrancyGuardUpgradeable,
+    OwnableUpgradeable,
+    ERC721EnumerableUpgradeable,
+    PausableUpgradeable
+{
     address payable holder;
-    uint256 listingFee = 0.0025 ether;
+    uint256 listingFee;
 
     struct List {
         uint256 tokenId;
@@ -28,11 +37,16 @@ contract EMNMarketResell is IERC721Receiver, ReentrancyGuard, Ownable {
         bool sold
     );
 
-    ERC721Enumerable nft;
+    ERC721EnumerableUpgradeable nft;
 
-    constructor(ERC721Enumerable _nft) {
+    function initialize(
+        ERC721EnumerableUpgradeable _nft,
+        uint128 _listingFee
+    ) public initializer {
         holder = payable(msg.sender);
         nft = _nft;
+        listingFee = _listingFee;
+        __Ownable_init();
     }
 
     function getListingFee() public view returns (uint256) {
@@ -48,7 +62,7 @@ contract EMNMarketResell is IERC721Receiver, ReentrancyGuard, Ownable {
         require(price > 0, "Amount must be higher than 0");
         require(
             msg.value == listingFee,
-            "Please transfer 0.0025 crypto to pay listing fee"
+            "Please transfer the listingFee to list NFT for sale"
         );
 
         vaultItems[tokenId] = List(
@@ -110,7 +124,7 @@ contract EMNMarketResell is IERC721Receiver, ReentrancyGuard, Ownable {
         bytes calldata
     ) external pure override returns (bytes4) {
         require(from == address(0x0), "Cannot send nfts to Vault directly");
-        return IERC721Receiver.onERC721Received.selector;
+        return IERC721ReceiverUpgradeable.onERC721Received.selector;
     }
 
     function withdraw() public payable onlyOwner {

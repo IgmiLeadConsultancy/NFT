@@ -1,22 +1,40 @@
 // SPDX-License-Identifier: Unlicensed
-pragma solidity ^0.8.4;
+pragma solidity ^0.8.10;
 
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URIStorageUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 
-contract EMN is ERC721URIStorage, Ownable {
-    using Counters for Counters.Counter;
-    Counters.Counter public _tokenIds;
+contract EMN is
+    Initializable,
+    OwnableUpgradeable,
+    ERC721URIStorageUpgradeable,
+    PausableUpgradeable
+{
+    using CountersUpgradeable for CountersUpgradeable.Counter;
+    CountersUpgradeable.Counter public _tokenIds;
     address contractAddress;
-    uint256 public cost = 0.0075 ether;
+    uint256 cost;
 
-    constructor(address _marketContract) ERC721("EMNMarket", "EMN") {
+    function initialize(
+        address _marketContract,
+        uint256 _cost
+    ) public initializer {
+        __ERC721_init("EMNMarket", "EMN");
         contractAddress = _marketContract;
+        cost = _cost;
+        __Ownable_init();
     }
 
-    function createNFT(string memory tokenURI) public returns (uint) {
+    function setCost(uint256 _cost) public onlyOwner {
+        cost = _cost;
+    }
+
+    function createNFT(
+        string memory tokenURI
+    ) public whenNotPaused returns (uint) {
         _tokenIds.increment();
         uint256 newItemId = _tokenIds.current();
         _mint(msg.sender, newItemId);
@@ -25,7 +43,9 @@ contract EMN is ERC721URIStorage, Ownable {
         return newItemId;
     }
 
-    function mintNFT(string memory tokenURI) public payable returns (uint) {
+    function mintNFT(
+        string memory tokenURI
+    ) public payable whenNotPaused returns (uint) {
         require(msg.value == cost, "Need to send 0.075 ether!");
 
         _tokenIds.increment();
@@ -34,6 +54,14 @@ contract EMN is ERC721URIStorage, Ownable {
         _setTokenURI(newItemId, tokenURI);
         setApprovalForAll(contractAddress, true);
         return newItemId;
+    }
+
+    function pause() public onlyOwner {
+        _pause();
+    }
+
+    function unpause() public onlyOwner {
+        _unpause();
     }
 
     function withdraw() public payable onlyOwner {
