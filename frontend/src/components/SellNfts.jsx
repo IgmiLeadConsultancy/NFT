@@ -124,7 +124,7 @@ const AddartCollectionss = () => {
                 console.log(data, "Arts Collection Has Added Successfully");
                 if (data.status === 200) {
                     alert("Your Art Collection Has Been Created Successfully");
-                    window.location.href = "/Sell-Own-NFT"
+                    // window.location.href = "/Sell-Own-NFT"
                 }
             })
 
@@ -274,16 +274,16 @@ const AddartCollectionss = () => {
                                         name="user"
                                         onChange={setUsername}
                                         value={user}
-                                        
+
                                     />
                                 </Form.Group>
-    
+
                                 <Form.Group className="" controlId="formBasicEmail">
-                                <Form.Label className="text-light">Contract Address</Form.Label>
+                                    <Form.Label className="text-light">Contract Address</Form.Label>
                                     <Form.Control
                                         type="text"
                                         name="contractAddress"
-                                        onChange={SetContractAddress}                                    
+                                        onChange={SetContractAddress}
                                         placeholder="Contract Address"
                                     />
                                 </Form.Group>

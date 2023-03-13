@@ -8,7 +8,7 @@ import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 
-contract EMNMarketResell is
+contract EMNMarketResale is
     Initializable,
     IERC721ReceiverUpgradeable,
     ReentrancyGuardUpgradeable,

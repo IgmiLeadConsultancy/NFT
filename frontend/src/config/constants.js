@@ -2,7 +2,6 @@ import SimpleCrypto from 'simple-crypto-js';
 // require("dotenv").config();
 
 const _secretKey = SimpleCrypto.generateRandom();
-console.log(_secretKey);
 
 // const { REACT_APP_PRIVATE_KEY_ETH, REACT_APP_PRIVATE_KEY_HARDHAT } = process.env;
 
@@ -14,7 +13,8 @@ export const cipherEth = simpleCrypto.encrypt(ethraw);
 export const cipherHH = simpleCrypto.encrypt(hhraw);
 
 
-export const EMNAddressGoerli = '0x45efE1252cec81f5a141E42E62c8aBC975b17773';
+// emn contract export const EMNAddressGoerli = '0x45efE1252cec81f5a141E42E62c8aBC975b17773';
+export const EMNAddressGoerli = "0x2CE917D40d548Af11b6F7ac8Ed80fB4A9E3e69db"
 export const EMNMarketAddressGoerli = '0xB482bBC11524B13A63EAB68F5A5D5936Aa085EDd';
 export const EMNMarketResaleAddressGoerli = '';
 
@@ -25,8 +25,8 @@ export const EMNMarketAddressMumbai = '0xA422027254Fb72c8e1108673E2F1e26e5Ad7aa5
 
 var hhrpc = "http://localhost:8545";
 
-var goerliRpc = "https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161";
+var goerliRpc = "https://rpc.ankr.com/eth_goerli";
 
 var mumbaiRpc = "https://rpc.ankr.com/polygon_mumbai"
 
-export var mainnet = goerliRpc;
+export var mainnet = mumbaiRpc;

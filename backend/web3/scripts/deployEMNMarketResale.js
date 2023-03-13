@@ -2,8 +2,8 @@ const { ethers, upgrades } = require("hardhat");
 
 async function main() {
 
-    const EMNMarket = await ethers.getContractFactory("EMNMarket");
-    const emnmarket = await upgrades.deployProxy(EMNMarket, [2500000000000000, 7500000000000000], {
+    const EMNMarketResale = await ethers.getContractFactory("EMNMarketResale");
+    const emnmarket = await upgrades.deployProxy(EMNMarketResale, [2500000000000000, 7500000000000000], {
         initializer: 'initialize'
     });
     await emnmarket.deployed();
