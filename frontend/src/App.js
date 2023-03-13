@@ -154,7 +154,7 @@ function App() {
           setCurrentAccount(account);
         } else {
           alert("Please Connect To Your Wallet First");
-            
+
         }
       }
     } catch (error) {
@@ -179,7 +179,7 @@ function App() {
   };
 
 
-   
+
 
   return (
     <>
@@ -383,8 +383,8 @@ function App() {
               <Route exact path="/faqs" component={FAQsLayout} />
               <Route exact path="/tnc" component={tncLayout} />
               <Route exact path="/Add-Own-NFT" component={AddNFT} />
-              <Route exact path="/explore-all" component={ExploreArts} />
-              <Route exact path="/Sell-Own-NFT" component={SellNft} />
+              <Route exact path="/explore-all" component={ExploreArts} currentAccount={currentAccount} />
+              <Route exact path="/Sell-Own-NFT" component={SellNft} currentAccount={currentAccount} />
               <Route exact path="" component={NotFound} />
             </Switch>
           </Router>
