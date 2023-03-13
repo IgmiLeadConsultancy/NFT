@@ -6,17 +6,12 @@ import Footer from "./common/Footer";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 // import ethers from "ethers";
-import { Redirect, Router } from "react-router-dom";
-
-import Web3Modal from "web3modal";
-import { ethers } from 'ethers';
-import EMN1 from '../config/EMN1.json';
-import EMNMarket from '../config/EMNMarketV1.json';
-import { EMNMarketAddressGoerli, cipherHH, mainnet, simpleCrypto, EMNAddressGoerli, cipherEth, EMNMarketAddressMumbai } from "../config/constants";
+import { Redirect } from "react-router-dom";
 
 
 
-const AddartCollectionss = ({ currentAccount }) => {
+
+const AddartCollectionss = () => {
 
     const [collection_title, setartcollection_title] = useState("");
     const [artCollectionss_name, setartCollectionss_name] = useState("");
@@ -26,7 +21,6 @@ const AddartCollectionss = ({ currentAccount }) => {
     const [collectionsImg, setcollectionsImg] = useState("");
     const [user, setuser] = useState("");
     const [contractAddress, setcontractAddress] = useState("");
-    const [tokenId, setTokenId] = useState("");
     // const [fileUrl, setFileUrl] = useState("");
 
     // const history = useHistory();
@@ -71,11 +65,6 @@ const AddartCollectionss = ({ currentAccount }) => {
         setcontractAddress(value);
     };
 
-    const SetTokenId = (e) => {
-        const { value } = e.target;
-        setTokenId(value);
-    };
-
 
     // adduser data
 
@@ -106,9 +95,9 @@ const AddartCollectionss = ({ currentAccount }) => {
     //     }
     // }
 
-    // useEffect(() => {
-    //     getcategoryData();
-    // }, []);
+    useEffect(() => {
+        getcategoryData();
+    }, []);
 
     const addUserData = async (e) => {
         e.preventDefault();
@@ -122,7 +111,6 @@ const AddartCollectionss = ({ currentAccount }) => {
         formData.append("collectionsImg", collectionsImg);
         formData.append("user", user);
         formData.append("contractAddress", contractAddress);
-        formData.append("tokenId", tokenId);
 
         const config = {
             headers: {
@@ -136,7 +124,7 @@ const AddartCollectionss = ({ currentAccount }) => {
                 console.log(data, "Arts Collection Has Added Successfully");
                 if (data.status === 200) {
                     alert("Your Art Collection Has Been Created Successfully");
-                    window.location.href = "/Sell-Own-NFT"
+                    // window.location.href = "/Sell-Own-NFT"
                 }
             })
 
@@ -170,9 +158,9 @@ const AddartCollectionss = ({ currentAccount }) => {
 
 
 
-    // useEffect(() => {
-    //     getUsername();
-    // }, []);
+    useEffect(() => {
+        getUsername();
+    }, []);
 
 
 
@@ -190,28 +178,6 @@ const AddartCollectionss = ({ currentAccount }) => {
     //     window.location.href="" 
     //  }
 
-
-    const sellNfts = async (e) => {
-        e.preventDefault();
-        const provider = new ethers.providers.JsonRpcProvider(window.ethereum);
-        const signer = provider.getSigner();
-
-        let marketContract = new ethers.Contract(EMNMarketAddressMumbai, EMNMarket, signer);
-        let contract = new ethers.Contract(contractAddress, EMN1, signer);
-        let price = ethers.utils.parseUnits(artCollectionss_price, 'ether');
-
-        const tx = await contract.approve(EMNMarketAddressMumbai, true);
-        await tx.wait();
-
-        let listingFee = marketContract.getListingFee();
-        listingFee = listingFee.toString();
-        console.log(listingFee);
-        console.log(contractAddress);
-        console.log(tokenId);
-        console.log(price);
-        let transaction = await marketContract.createVaultItem(contractAddress, tokenId, price, { value: listingFee });
-        await transaction.wait();
-    }
 
 
     return (
@@ -242,6 +208,16 @@ const AddartCollectionss = ({ currentAccount }) => {
                                         name="collection_title"
                                         onChange={setCollectionsTitle}
                                         placeholder="Art Collections Title"
+                                    />
+                                </Form.Group>
+
+                                <Form.Group className="" controlId="formBasicEmail">
+                                    <Form.Label className="text-light">Art Collections Name</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="artCollectionss_name"
+                                        onChange={setCollectionsName}
+                                        placeholder="Art Collections Name"
                                     />
                                 </Form.Group>
 
@@ -281,6 +257,15 @@ const AddartCollectionss = ({ currentAccount }) => {
                                     />
                                 </Form.Group>
 
+                                <Form.Group className="" controlId="formBasicEmail">
+                                    <Form.Label className="text-light">Art Collections Thumbnail</Form.Label>
+                                    <Form.Control
+                                        type="file"
+                                        name="collectionsImg"
+                                        onChange={setimgfile}
+                                        placeholder="Art Collections Thumbnail"
+                                    />
+                                </Form.Group>
 
 
                                 <Form.Group className="" controlId="formBasicEmail">
@@ -303,22 +288,12 @@ const AddartCollectionss = ({ currentAccount }) => {
                                     />
                                 </Form.Group>
 
-                                <Form.Group className="" controlId="formBasicEmail">
-                                    <Form.Label className="text-light">Token Id</Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        name="tokenId"
-                                        onChange={SetTokenId}
-                                        placeholder="Token Id"
-                                    />
-                                </Form.Group>
-
                                 <Form.Group
                                     className=""
                                     controlId="formBasicEmail"
                                     align="center"
                                 >
-                                    <Button variant="primary" type="submit" onSubmit={sellNfts}>
+                                    <Button variant="primary" type="submit" onClick={addUserData}>
                                         Submit
                                     </Button>
                                 </Form.Group>
