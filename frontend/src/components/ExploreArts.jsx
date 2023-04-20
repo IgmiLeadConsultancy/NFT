@@ -45,9 +45,9 @@ const AddartCollectionss = ({ currentAccount }) => {
     const [tokenId, settokenId] = useState([]);
     const [price, setprice] = useState([]);
     const [image, setImage] = useState([]);
-    const [nftData, setNftData] = useState([]);
-
-
+    // const [nftData, setNftData] = useState([]);
+    let nftData = []
+    console.log(nftData);
     // useEffect(() => {
     //     // connectUser();
     //     getAllNFTs();
@@ -95,73 +95,28 @@ const AddartCollectionss = ({ currentAccount }) => {
 
             let id = i.tokenId
             let tokenUri = (await tokenContract.tokenURI(id)).replace('ipfs://', 'https://ipfs.io/ipfs/');
-
             // let fetchNftsData = await axios.get(tokenUri);
             // let arrayRes = Object.entries(fetchNftsData).map(([key, value]) => ({ value }));
             // setNftData(arrayRes)
             try {
                 let fetchNftsData = await axios.get(tokenUri);
-                setNftData(fetchNftsData.data);
+                // setNftData(fetchNftsData.data);
+                nftData.push(fetchNftsData.data);
+                for (let i = 0; i < nftData.length - 1; i++) {
+                    console.log(nftData);
+                }
             } catch (error) {
                 console.log(error);
             }
-
         })
 
-
-
-
-        // const items = itemArray.map(async i => {
-        //     const tokenContractAddress = await i.nftContract;
-        //     const tokenContract = new ethers.Contract(tokenContractAddress, DemoMint.abi, signer);
-
-        //     const tokenUri = (await tokenContract.tokenURI(i.tokenId)).replace('ipfs://', 'https://ipfs.io/ipfs/');
-
-        //     let url = await fetch(tokenUri);
-        //     console.log(url);
-
-
-        //     let data = await url.json();
-        //     console.log(data);
-        //     console.log(typeof (data))
-        //     setNftData(data)
-        //     console.log(nftData);
-
-        //     let img = data.image.replace('ipfs://', 'https://ipfs.io/ipfs/');
-        //     console.log(img);
-        //     setImage(img);
-        //     let token = i.tokenId;
-        //     token = parseInt(token)
-        //     settokenId(token)
-        //     console.log(token);
-        //     let price = ethers.utils.formatUnits(i.price.toString(), 'ether');
-        //     price = parseInt(price)
-        //     console.log(price);
-        //     setprice(price)
-
-        //     let metadata = {
-        //         name: data.name,
-        //         description: data.description,
-        //         image: img,
-        //         tokenId: token,
-        //         price: price
-        //     }
-
-        //     let meta = JSON.stringify(metadata);
-        //     console.log(meta);
-        // })
-
-
-
-        // setNfts(items);
-        // console.log(items);
         setLoadingState('loaded');
 
     }
 
 
 
-    console.log(nftData);
+
 
     // nftData.map((e) => (console.log(e.value.name)))
 

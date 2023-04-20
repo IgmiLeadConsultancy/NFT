@@ -267,7 +267,7 @@ const NavbaR = ({ auth: { isAuthenticated, loading, user }, logout, currentAccou
             >
               <i className="fa fa-shopping-cart" style={{ color: "black" }}></i>
             </Button>{" "}
-            &nbsp;&nbsp;
+            &nbsp;
             {(() => {
               if (IsLoggedIn === "true") {
                 return <Button
@@ -309,8 +309,8 @@ const NavbaR = ({ auth: { isAuthenticated, loading, user }, logout, currentAccou
 
 
 
-            &nbsp;
-            <Button
+
+            {/* <Button
               className="btn text-dark d-inline"
 
               style={{ background: "yellow" }}
@@ -319,14 +319,14 @@ const NavbaR = ({ auth: { isAuthenticated, loading, user }, logout, currentAccou
                 userData.fname + " " + userData.lname
                 :
                 <Button className="btn text-dark d-inline" style={{ background: "yellow", border: "none" }} onClick={connectWallet}>Connect Wallet</Button>}
-            </Button>{" "}
+            </Button>{" "} */}
             {currentAccount !== null ?
               <ConnectChain />
               :
               <Button className="btn text-dark d-inline" style={{ background: "yellow", border: "none", padding: "10px", paddingLeft: "5px", paddingRight: "5px" }} onClick={connectWallet}>Connect Wallet</Button>
             }
             {" "}
-            &nbsp;&nbsp;
+
 
           </Navbar.Collapse>
         </Container>

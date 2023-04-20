@@ -401,12 +401,12 @@ button.sc-gswNZR.iuCHOL.rec.rec-arrow.rec.rec-arrow-left {
     height: 900px;
 }
 
-.btn:not(:disabled):not(.disabled) {
+/* .btn:not(:disabled):not(.disabled) {
     cursor: pointer;
     border-radius: 100%;
     font-weight: bolder;
     border: 3px solid gold;
-}
+} */
 
 
 input.btn.btn-outline-info.w-100 {

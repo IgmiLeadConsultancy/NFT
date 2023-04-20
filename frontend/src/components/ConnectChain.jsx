@@ -18,32 +18,32 @@ const ConnectChain = () => {
         var goe = "Goerli";
         var bsc = "BscTest"
         var init = "Set Network";
-        if (selectedValue == eth) {
+        if (selectedValue === eth) {
             return (
-                <img src='../images/ethereumlogo.png' width={"160px"} />
+                <img src='../images/ethereumlogo.png' width={"160px"} alt='' />
             )
         }
-        else if (selectedValue == pol) {
+        else if (selectedValue === pol) {
             return (
-                <img src='../images/polygonwhite.png' width={"160px"} />
+                <img src='../images/polygonwhite.png' width={"160px"} alt='' />
             )
         }
-        else if (selectedValue == mum) {
+        else if (selectedValue === mum) {
             return (
                 <h3>Mumbai Testnet</h3>
             )
         }
-        else if (selectedValue == goe) {
+        else if (selectedValue === goe) {
             return (
                 <h3>Goerli Testnet</h3>
             )
         }
-        else if (selectedValue == bsc) {
+        else if (selectedValue === bsc) {
             return (
                 <h3>Binance Testnet</h3>
             )
         }
-        else if (selectedValue == init) {
+        else if (selectedValue === init) {
             return (
                 <div className='mt-4'>
                     <h3>Select Network</h3>
@@ -79,17 +79,18 @@ const ConnectChain = () => {
 
     return (
         <div>
-            <Dropdown>
+            <Dropdown className='p-3'>
                 <Dropdown.Toggle variant="success">
                     {selected}
                 </Dropdown.Toggle>
 
-                <Dropdown.Menu >
-                    <button onClick={ethChain} onSelectCapture={e => setSelected("Ethereum")}>Ethereum Mainnet</button>
-                    <button onClick={maticChain}>Polygon Mainnet</button>
-                    <button onClick={goerliTestnet}>Goerli</button>
-                    <button onClick={maticTestnet}>Mumbai</button>
-                    <button onClick={bscTest}>Bsc Testnet</button>
+                <Dropdown.Menu className='p-3'>
+                    <button className='btn btn-outline-primary w-100' onClick={ethChain} onSelectCapture={e => setSelected("Ethereum")}>Ethereum Mainnet</button>
+                    <button className='btn btn-outline-primary w-100' onClick={maticChain}>Polygon Mainnet</button>
+                    <button className='btn btn-outline-primary w-100' onClick={goerliTestnet}>Goerli</button>
+                    <br />
+                    <button className='btn btn-outline-primary w-100' onClick={maticTestnet}>Mumbai</button>
+                    <button className='btn btn-outline-primary w-100' onClick={bscTest}>Bsc Testnet</button>
                 </Dropdown.Menu>
             </Dropdown>
         </div>
